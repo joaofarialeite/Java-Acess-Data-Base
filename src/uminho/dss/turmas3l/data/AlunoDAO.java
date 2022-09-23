@@ -99,5 +99,10 @@ public class AlunoDAO {
 
     }
 
+    public void removealuno(Aluno a){
+
+
+    }
+
 
 }
