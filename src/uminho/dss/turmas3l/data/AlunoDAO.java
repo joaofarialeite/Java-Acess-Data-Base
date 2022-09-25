@@ -19,7 +19,8 @@ public class AlunoDAO {
     private static AlunoDAO singleton = null;
 
     /**
-     * Private porque é o padrao singleton (nao poder aceder de fora e nao poder criar dois objetos)
+     * Private porque é o padrao singleton (nao poder aceder de fora e nao poder criar dois objetos ( dois
+     * acessos ao mesmo tempo)
      *
      */
     private AlunoDAO() {

@@ -7,6 +7,7 @@
 package uminho.dss.turmas3l.ui;
 
 import uminho.dss.turmas3l.business.*;
+import uminho.dss.turmas3l.data.AlunoDAO;
 import uminho.dss.turmas3l.data.TurmaDAO;
 
 import java.util.List;
@@ -29,8 +30,11 @@ public class TextUI {
     // Scanner para leitura
     private Scanner scin;
 
-    // O turmabd tem a turma base de dados
+    // O turmabd tem a turma que interage coma base de dados
     private TurmaDAO turmabd;
+
+    // O alunobd tem a classe que interage com a base de dados
+    private AlunoDAO alunobd;
 
     /**
      * Construtor.
@@ -48,8 +52,12 @@ public class TextUI {
                 "Listar Turmas",
                 "Adicionar Aluno a Turma",
                 "Remover Aluno da Turma",
-                "Listar Alunos de Turma"
+                "Listar Alunos de Turma",
+                "Adicionar Aluno a Base de Dados"
         });
+
+        this.alunobd = AlunoDAO.getInstance();
+
         this.menu.setHandler(1, this::trataAdicionarAluno);
         this.menu.setHandler(2, this::trataConsultarAluno);
         this.menu.setHandler(3, this::trataListarAlunos);
@@ -59,8 +67,11 @@ public class TextUI {
         this.menu.setHandler(7, this::trataAdicionarAlunoATurma);
         this.menu.setHandler(8, this::trataRemoverAlunoDaTurma);
         this.menu.setHandler(9, this::trataListarAlunosTurma);
+        this.menu.setHandler(10, this::adicionarAlunoBasedeDados);
 
-        this.model = new TurmasFacade();
+        // ATENCAO AQUI ESTA O TURMAS DESLIGADO PORQUE SO QUERO A TABELA ALUNOS
+        //this.model = new TurmasFacade();
+        //this.alunobd = AlunoDAO.getInstance();
         scin = new Scanner(System.in);
     }
 
@@ -241,9 +252,28 @@ public class TextUI {
         try{
             System.out.println("Numero do novo aluno: ");
             String num = scin.nextLine();
+          //  if(this.alunobd.existealuno(num) != -1 ) {
+                System.out.println("Nome");
+                String nome = scin.nextLine();
+                System.out.println("Email");
+                String email = scin.nextLine();
+                //scin.nextLine(); // Limpar o buffer ??????????
+                this.alunobd.adicionaaluno(new Aluno(num, nome, email));
+           // } else {
+                System.out.println("Esse numero de turma já existe!");
+           // }
 
 
-        } catch (NullPointerException n){}
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
+
+
+/*        Aluno a = new Aluno("A", "b", "c");
+        Aluno e = new Aluno("F", "G", "H");
+        this.alunobd.adicionaaluno(a);
+        */
 
     }
 
