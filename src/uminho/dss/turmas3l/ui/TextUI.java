@@ -7,6 +7,7 @@
 package uminho.dss.turmas3l.ui;
 
 import uminho.dss.turmas3l.business.*;
+import uminho.dss.turmas3l.data.TurmaDAO;
 
 import java.util.List;
 import java.util.Scanner;
@@ -27,6 +28,9 @@ public class TextUI {
 
     // Scanner para leitura
     private Scanner scin;
+
+    // O turmabd tem a turma base de dados
+    private TurmaDAO turmabd;
 
     /**
      * Construtor.
@@ -225,4 +229,23 @@ public class TextUI {
             System.out.println(e.getMessage());
         }
     }
+
+
+
+
+// ---------- BASE DE DADOS
+
+
+    private void adicionarAlunoBasedeDados(){
+
+        try{
+            System.out.println("Numero do novo aluno: ");
+            String num = scin.nextLine();
+
+
+        } catch (NullPointerException n){}
+
+    }
+
+
 }

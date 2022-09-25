@@ -6,7 +6,10 @@
  */
 package uminho.dss.turmas3l;
 
+import uminho.dss.turmas3l.business.Aluno;
 import uminho.dss.turmas3l.business.Sala;
+import uminho.dss.turmas3l.business.Turma;
+import uminho.dss.turmas3l.data.AlunoDAO;
 import uminho.dss.turmas3l.data.TurmaDAO;
 import uminho.dss.turmas3l.ui.TextUI;
 
@@ -22,14 +25,27 @@ public class Main {
     public static void main(String[] args) {
         try {
             new TextUI().run();
+
         }
         catch (Exception e) {
             System.out.println("Não foi possível arrancar: "+e.getMessage());
         }
+
+
     }
+
+}
 
 /* TESTAR ADICIONAR UMA TURMA A BASE DE DADOS
     TurmaDAO res = TurmaDAO.getInstance();
             res.put("22",  new Turma("22" , new Sala("ah", "ah", 2)));
 */
-}
+
+
+/* TESTAR ADICIONAR UM ALUNO A BASE DE DADOS
+
+    Aluno a = new Aluno("A", "b", "c");
+    AlunoDAO adao = AlunoDAO.getInstance();
+        adao.adicionaaluno(a);
+
+*/

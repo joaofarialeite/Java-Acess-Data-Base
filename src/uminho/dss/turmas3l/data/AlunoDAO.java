@@ -63,7 +63,8 @@ public class AlunoDAO {
         try (Connection conn = DriverManager.getConnection(DAOconfig.URL, DAOconfig.USERNAME, DAOconfig.PASSWORD);
              Statement stm = conn.createStatement();
              ResultSet rs = stm.executeQuery( " SELECT Num FROM alunos WHERE Num = '" + numero +"' " )) {
-             control = rs.getInt(1);
+             if(rs.next())
+                control = rs.getInt(1);
              }
 
         catch (SQLException e) {
@@ -86,9 +87,8 @@ public class AlunoDAO {
             // Actualizar Alunos
             stm.executeUpdate(
                     "INSERT INTO alunos " +
-                            "VALUES ('"+ a.getNumero()+ "', '"+
-                            a.getNome()+"', "+
-                            a.getEmail()+") ");
+                            "VALUES ('"+ a.getNumero()+"', '" +a.getNome()+"' , '"+a.getEmail()+"' )" );
+
 
         }  catch (SQLException e) {
             // Database error!
@@ -101,6 +101,16 @@ public class AlunoDAO {
 
     public void removealuno(Aluno a){
 
+        try (Connection conn = DriverManager.getConnection(DAOconfig.URL, DAOconfig.USERNAME, DAOconfig.PASSWORD);
+                Statement stm = conn.createStatement()){
+
+                stm.executeUpdate("DELETE FROM alunos WHERE Num= '"+ a.getNumero() +"' " );
+
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                throw new NullPointerException(e.getMessage());
+        }
 
     }
 
