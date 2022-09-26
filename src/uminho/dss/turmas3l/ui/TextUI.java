@@ -53,10 +53,13 @@ public class TextUI {
                 "Adicionar Aluno a Turma",
                 "Remover Aluno da Turma",
                 "Listar Alunos de Turma",
-                "Adicionar Aluno a Base de Dados"
+                "Adicionar Aluno a Base de Dados",
+                "Verificar Existencia de aluno na Base de Dados",
+                "Eliminar Aluno da Base de Dados",
+                "Ver Lista de Alunos"
         });
 
-        this.alunobd = AlunoDAO.getInstance();
+//        this.alunobd = AlunoDAO.getInstance();
 
         this.menu.setHandler(1, this::trataAdicionarAluno);
         this.menu.setHandler(2, this::trataConsultarAluno);
@@ -68,10 +71,13 @@ public class TextUI {
         this.menu.setHandler(8, this::trataRemoverAlunoDaTurma);
         this.menu.setHandler(9, this::trataListarAlunosTurma);
         this.menu.setHandler(10, this::adicionarAlunoBasedeDados);
+        this.menu.setHandler(11, this::Verificaraluno);
+        this.menu.setHandler(12, this::eliminaraluno);
+        this.menu.setHandler(13, this::veralunosbasededados);
 
         // ATENCAO AQUI ESTA O TURMAS DESLIGADO PORQUE SO QUERO A TABELA ALUNOS
         //this.model = new TurmasFacade();
-        //this.alunobd = AlunoDAO.getInstance();
+        this.alunobd = AlunoDAO.getInstance();
         scin = new Scanner(System.in);
     }
 
@@ -244,7 +250,7 @@ public class TextUI {
 
 
 
-// ---------- BASE DE DADOS
+// ---------- BASE DE DADOS -----------------
 
 
     private void adicionarAlunoBasedeDados(){
@@ -252,30 +258,57 @@ public class TextUI {
         try{
             System.out.println("Numero do novo aluno: ");
             String num = scin.nextLine();
-          //  if(this.alunobd.existealuno(num) != -1 ) {
+            if(this.alunobd.existealuno(num) == false ) {
                 System.out.println("Nome");
                 String nome = scin.nextLine();
                 System.out.println("Email");
                 String email = scin.nextLine();
                 //scin.nextLine(); // Limpar o buffer ??????????
                 this.alunobd.adicionaaluno(new Aluno(num, nome, email));
-           // } else {
+            } else {
                 System.out.println("Esse numero de turma já existe!");
-           // }
+            }
 
 
         } catch (Exception e){
             System.out.println(e.getMessage());
         }
 
+    }
 
+    private void Verificaraluno(){
 
-/*        Aluno a = new Aluno("A", "b", "c");
-        Aluno e = new Aluno("F", "G", "H");
-        this.alunobd.adicionaaluno(a);
-        */
+        try{
+            System.out.println("Numero do aluno: ");
+            String num = scin.nextLine();
+            if(this.alunobd.existealuno(num) == true) System.out.println("O aluno Existe");
+            else System.out.println("O aluno não existe");
+            scin.nextLine(); // para limpar o buffer
+        } catch(Exception e) {
+            System.out.println(e.getMessage());
+        }
 
     }
 
+    private void eliminaraluno(){
+
+        try{
+            System.out.println("Numero do aluno: ");
+            String num = scin.nextLine();
+            if(this.alunobd.existealuno(num) == true){
+                this.alunobd.removealuno(num);
+                System.out.println("Aluno removido com sucesso");
+            }
+            else System.out.println("O aluno nao existe");
+            scin.nextLine();
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void veralunosbasededados(){
+        this.alunobd.todososalunos();
+    }
 
 }

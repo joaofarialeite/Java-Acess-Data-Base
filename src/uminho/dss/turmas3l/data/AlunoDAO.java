@@ -57,7 +57,7 @@ public class AlunoDAO {
      * @param numero
      * @return se o aluno nao existir retorna -1
      */
-    public int existealuno(String numero) {
+    public boolean existealuno(String numero) {
 
         int control = -1;
 
@@ -65,7 +65,8 @@ public class AlunoDAO {
              Statement stm = conn.createStatement();
              ResultSet rs = stm.executeQuery( " SELECT Num FROM alunos WHERE Num = '" + numero +"' " )) {
              if(rs.next())
-                control = rs.getInt(1);
+                if(numero.equals(rs.getString(1))) return true;
+                else return false;
              }
 
         catch (SQLException e) {
@@ -76,8 +77,7 @@ public class AlunoDAO {
             throw new NullPointerException(e.getMessage());
         }
 
-        return control;
-
+        return false;
     }
 
     public void adicionaaluno(Aluno a){
@@ -100,13 +100,12 @@ public class AlunoDAO {
 
     }
 
-    public void removealuno(Aluno a){
+    public void removealuno(String a){
 
         try (Connection conn = DriverManager.getConnection(DAOconfig.URL, DAOconfig.USERNAME, DAOconfig.PASSWORD);
                 Statement stm = conn.createStatement()){
 
-                stm.executeUpdate("DELETE FROM alunos WHERE Num= '"+ a.getNumero() +"' " );
-
+                stm.executeUpdate("DELETE FROM alunos WHERE Num= '"+a+"' ");
 
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -115,5 +114,21 @@ public class AlunoDAO {
 
     }
 
+    public void todososalunos() {
+
+        try (Connection conn = DriverManager.getConnection(DAOconfig.URL, DAOconfig.USERNAME, DAOconfig.PASSWORD);
+             Statement stm = conn.createStatement();
+             ResultSet rsa = stm.executeQuery("SELECT * FROM alunos ")) {
+
+            while (rsa.next()) {
+                System.out.println('\n' + "Nome: " + rsa.getString("Num")
+                        + '\n' + "Nome: " + rsa.getString("Nome")
+                        + '\n' + "Email:" +  rsa.getString("Email"));
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
 
 }
